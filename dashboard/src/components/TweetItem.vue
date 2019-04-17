@@ -61,7 +61,7 @@ import { postDismiss } from "@/api"
 export default {
   name: "TweetItem",
   props: {
-    id: Number,
+    id: String,
     username: String,
     tweetText: String,
     sentimentType: String,
@@ -138,8 +138,7 @@ export default {
       }
     },
     subjectClass() {
-      // switch (this.subjectType.toLowerCase()) {
-      switch (this.subjectType) {
+      switch (this.subjectType.toLowerCase()) {
         case "subjective":
           return { subjectiveStyle: true };
         case "objective":

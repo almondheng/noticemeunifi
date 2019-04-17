@@ -1,6 +1,6 @@
 {
-  "name": "socionion-dashboard",
-  "short_name": "socionion-dashboard",
+  "name": "noticemeunifi",
+  "short_name": "notifi",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
