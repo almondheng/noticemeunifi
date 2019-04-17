@@ -2,6 +2,7 @@
   <v-container fluid>
     <FilterBar :showSentiment="showSentiment" @change-filter="invokeChangeFilter"/>
     <br>
+    <iframe src="http://bde99f02.ngrok.io/chart"></iframe>
   </v-container>
 </template>
 
@@ -20,7 +21,7 @@ export default {
     };
   },
   methods: {
-      invokeChangeFilter(filter) {
+    invokeChangeFilter(filter) {
       switch (filter) {
         case "en":
           this.langFilter = "en";
@@ -34,3 +35,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+iframe {
+  display: block; /* iframes are inline by default */
+  border: none; /* Reset default border */
+  height: 70vh; /* Viewport-relative units */
+  width: 95vw;
+}
+</style>
