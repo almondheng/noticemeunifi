@@ -23,7 +23,7 @@
                 <span>Last update:</span>
               </v-flex>
               <v-flex>
-                <span>{{ lastUpdate }} ago</span>
+                <span><time-ago :datetime="updateTimestamp" refresh style="color:black;"></time-ago> ago</span>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -46,7 +46,7 @@
         </v-list-tile>
         <v-subheader>Action</v-subheader>
         <v-list-tile>
-          <v-list-tile-sub-title>Last update: {{ lastUpdate }} ago</v-list-tile-sub-title>
+          <v-list-tile-sub-title>Last update: <time-ago :datetime="updateTimestamp" refresh style="color:black;"></time-ago> ago</v-list-tile-sub-title>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
@@ -64,13 +64,18 @@
 </template>
 
 <script>
+import TimeAgo from 'vue2-timeago'
+
 export default {
   name: "Navbar",
+  components: {
+    TimeAgo,
+  },
   data() {
     return {
       avatarSize: 40,
       toolbarTitle: "Notice Me",
-      lastUpdate: "10 mins",
+      updateTimestamp: "",
       drawer: false,
       loading: false,
       navigationData: [
@@ -102,6 +107,7 @@ export default {
     },
     stopLoading() {
       this.loading = false
+      this.updateTimestamp = Date.now()
     }
   }
 };

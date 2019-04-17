@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
+import 'vue2-timeago/dist/vue2-timeago.css'
 
 Vue.config.productionTip = false
 
