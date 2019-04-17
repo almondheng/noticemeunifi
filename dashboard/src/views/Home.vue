@@ -10,6 +10,7 @@
       :username="tweet.user"
       :tweetText="tweet.full_text"
       :sentimentType="tweet.sentiment"
+      :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
@@ -63,7 +64,8 @@ export default {
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest"
+      sentimentFilter: "latest",
+      subjectFilter: "subjective"
     };
   },
   computed: {
@@ -75,7 +77,8 @@ export default {
           tweet.lang === this.langFilter &&
           //!tweet.is_done &&
           (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "latest")
+            this.sentimentFilter === "latest") &&
+          tweet.subject_type.toLowerCase() === this.subjectFilter
         ) {
           filtered.push(tweet);
         }
@@ -83,7 +86,7 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage);
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
     }
   },
   methods: {
@@ -132,6 +135,12 @@ export default {
         case "latest":
           this.sentimentFilter = "latest";
           break;
+        case "subjective":
+          this.subjectFilter = "subjective";
+          break;
+        case "objective":
+          this.subjectFilter = "objective";
+          break;
         default:
       }
     },
@@ -145,8 +154,11 @@ export default {
         .catch(e => {
           //eslint-disable-next-line
           console.log(e);
-          this.$parent.$parent.$parent.openAlert("error", "Request failed, please try again.")
-          this.$parent.$parent.$parent.updateComplete()
+          this.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+          this.$parent.$parent.$parent.updateComplete();
         });
     }
   },
