@@ -7,7 +7,7 @@
         <span v-bind:style="{color: 'gray', fontsize: '12px'}">&nbsp;@{{ screenFromJSON(username) }}</span>
         <v-spacer/>
         <v-chip selected :class="sentimentClass">{{ sentimentType.toUpperCase() }}</v-chip>
-        <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
+        <v-chip selected :class="subjectClass">{{ subjectType.toUpperCase() }}</v-chip>
       </v-card-title>
 
       <v-card-text>{{ tweetText }}</v-card-text>
@@ -55,6 +55,9 @@
 </template>
 
 <script>
+import { postIsDone } from "@/api"
+import { postDismiss } from "@/api"
+
 export default {
   name: "TweetItem",
   props: {
@@ -72,7 +75,7 @@ export default {
       var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
       var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
       var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
-      var json = JSON.stringify(eval("(" + t4 + ")"));
+      var json = JSON.stringify(eval('(' + t4 + ')'));
       var obj = JSON.parse(json)
       return obj.name
     },
@@ -91,8 +94,36 @@ export default {
     messageTweet(id) {
       this.$emit("message-dialog", id);
     },
-    dismissTweet() {},
-    markAsDoneTweet() {}
+    dismissTweet() {
+      let param = {"id": this.id.toString()}
+      postDismiss(param).then(() => {
+        this.$parent.$parent.$parent.$parent.openAlert(
+            "success",
+            "Tweet dismissed."
+          );
+          this.$emit("recompute-data")
+      }).catch(() => {
+          this.$parent.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+        });
+    },
+    markAsDoneTweet() {
+      let param = {"id": this.id.toString()}
+      postIsDone(param).then(() => {
+        this.$parent.$parent.$parent.$parent.openAlert(
+            "success",
+            "Tweet is marked as done."
+          );
+          this.$emit("recompute-data")
+      }).catch(() => {
+          this.$parent.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+        });
+    }
   },
   computed: {
     sentimentClass() {

@@ -2,8 +2,8 @@
   <v-container fluid>
     <FilterBar :showSentiment="showSentiment" @change-filter="invokeChangeFilter"/>
     <br>
-    <iframe v-if="this.langFilter === 'en'" id="enChart" src="http://bde99f02.ngrok.io/chart"></iframe>
-    <iframe v-if="this.langFilter === 'bm'" id="bmChart" src="http://bde99f02.ngrok.io/chart"></iframe>
+    <iframe v-if="this.langFilter === 'en'" id="enChart" src="http://bde99f02.ngrok.io/english"></iframe>
+    <iframe v-if="this.langFilter === 'bm'" id="bmChart" src="http://bde99f02.ngrok.io/malay"></iframe>
   </v-container>
 </template>
 

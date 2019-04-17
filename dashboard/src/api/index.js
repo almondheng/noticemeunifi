@@ -9,3 +9,19 @@ export const generateFile = async () => {
 export const getTweets = async () => {
     return axios.get(url + "/model")
 }
+
+export const getIsDone = async () => {
+    return axios.get(url + "/done")
+}
+
+export const postIsDone = async (id) => {
+    return axios.post(url + "/done", id)
+}
+
+export const getDismiss = async () => {
+    return axios.get(url + "/dismiss")
+}
+
+export const postDismiss = async (id) => {
+    return axios.post(url + "/dismiss", id)
+}
