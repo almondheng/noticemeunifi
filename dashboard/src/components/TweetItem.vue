@@ -3,10 +3,11 @@
     <v-card>
       <v-card-title>
         <v-icon color="primary" large left>link</v-icon>
-        <span class="title font-weight-light">{{ parseToString(username) }}</span>
+        <span class="title font-weight-light">{{ nameFromJSON(username) }}</span>
+        <span v-bind:style="{color: 'gray', fontsize: '12px'}">&nbsp;@{{ screenFromJSON(username) }}</span>
         <v-spacer/>
         <v-chip selected :class="sentimentClass">{{ sentimentType.toUpperCase() }}</v-chip>
-        <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
+        <v-chip selected :class="subjectClass">{{ subjectType.toUpperCase() }}</v-chip>
       </v-card-title>
 
       <v-card-text>{{ tweetText }}</v-card-text>
@@ -69,14 +70,23 @@ export default {
     showAction: Boolean
   },
   methods: {
-    parseToString(username) {
+    nameFromJSON(username) {
+      var t1 = username.replace(new RegExp("'", 'g'), '"')
+      var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
+      var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
+      var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
+      var json = JSON.stringify(eval('(' + t4 + ')'));
+      var obj = JSON.parse(json)
+      return obj.name
+    },
+    screenFromJSON(username) {
       var t1 = username.replace(new RegExp("'", 'g'), '"')
       var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
       var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
       var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
       var json = JSON.stringify(eval("(" + t4 + ")"));
       var obj = JSON.parse(json)
-      return obj.name
+      return obj.screen_name
     },
     replyTweet(id) {
       this.$emit("reply-dialog", id);
@@ -161,4 +171,6 @@ export default {
   color: rgba(238, 108, 77, 1);
   background-color: white;
 }
+
+
 </style>
