@@ -76,9 +76,9 @@ export default {
   computed: {
     sentimentClass() {
       switch (this.sentimentType) {
-        case "Negative":
+        case "negative":
           return { negativeStyle: true };
-        case "Positive":
+        case "positive":
           return { positiveStyle: true };
         default:
           return {};
