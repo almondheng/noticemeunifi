@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-card-title>
-        <v-icon color="primary" large left>link</v-icon>
+        <a :href="src" target="_blank"><v-icon color="primary" large left>link</v-icon></a>
         <span class="title font-weight-light">{{ nameFromJSON(username) }}</span>
         <span v-bind:style="{color: 'gray', fontsize: '12px'}">&nbsp;@{{ screenFromJSON(username) }}</span>
         <v-spacer/>
@@ -67,7 +67,8 @@ export default {
     sentimentType: String,
     subjectType: String,
     createdAt: String,
-    showAction: Boolean
+    showAction: Boolean,
+    src: String
   },
   methods: {
     nameFromJSON(username) {

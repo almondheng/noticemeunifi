@@ -12,6 +12,7 @@
       :sentimentType="tweet.sentiment"
       :subjectType="tweet.subjectivity"
       :createdAt="tweet.created_at"
+      :src="'https://twitter.com/user/status/'.concat(tweet.id.toString())"
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
       @message-dialog="invokeMessageDialog"
