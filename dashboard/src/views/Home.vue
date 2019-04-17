@@ -10,7 +10,7 @@
       :username="tweet.user"
       :tweetText="tweet.full_text"
       :sentimentType="tweet.sentiment"
-      :subjectType="tweet.subject_type"
+      :subjectType="tweet.subjectivity"
       :createdAt="tweet.created_at"
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
@@ -80,10 +80,10 @@ export default {
         tweet.lang === "ENGLISH" ? (tweet.lang = "en") : (tweet.lang = "bm");
         if (
           tweet.lang === this.langFilter &&
-          //!tweet.is_done &&
           (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
             this.sentimentFilter === "") &&
-          // && (tweet.subject_type.toLowerCase() === this.subjectFilter || this.subjectFilter === "")
+          (tweet.subjectivity.toLowerCase() === this.subjectFilter ||
+            this.subjectFilter === "") &&
           !this.doneId.includes(tweet.id.toString()) &&
           !this.dismissedId.includes(tweet.id.toString())
         ) {
@@ -161,7 +161,7 @@ export default {
       }
     },
     recomputeFilteredObj() {
-      this.init()
+      this.init();
     },
     init() {
       this.getBlacklist();

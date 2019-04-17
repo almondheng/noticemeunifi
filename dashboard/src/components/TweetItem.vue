@@ -6,7 +6,7 @@
         <span class="title font-weight-light">{{ parseToString(username) }}</span>
         <v-spacer/>
         <v-chip selected :class="sentimentClass">{{ sentimentType.toUpperCase() }}</v-chip>
-        <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
+        <v-chip selected :class="subjectClass">{{ subjectType.toUpperCase() }}</v-chip>
       </v-card-title>
 
       <v-card-text>{{ tweetText }}</v-card-text>
@@ -74,7 +74,7 @@ export default {
       var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
       var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
       var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
-      var json = JSON.stringify(eval("(" + t4 + ")"));
+      var json = JSON.stringify(eval('(' + t4 + ')'));
       var obj = JSON.parse(json)
       return obj.name
     },
