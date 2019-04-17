@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://bde99f02.ngrok.io"
+const url = "https://bde99f02.ngrok.io"
 
 export const generateFile = async () => {
     return axios.get(url + "/scrape")
