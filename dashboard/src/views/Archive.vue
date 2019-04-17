@@ -5,14 +5,14 @@
     <TweetItem
       class="tweetItem"
       v-for="tweet in filteredTweetObj.slice(itemPerPage * (page - 1) , itemPerPage + itemPerPage * (page - 1))"
-      :key="tweet.id"
-      :id="tweet.id"
+      :key="tweet.id_str"
+      :id="tweet.id_str"
       :username="tweet.user"
       :tweetText="tweet.full_text"
       :sentimentType="tweet.sentiment"
       :subjectType="tweet.subjectivity"
       :createdAt="tweet.created_at"
-      :src="'https://twitter.com/user/status/'.concat(tweet.id.toString())"
+      :src="'https://twitter.com/user/status/'.concat(tweet.id_str)"
       :showAction="showAction"
       @recompute-data="recomputeFilteredObj"
     />
@@ -53,15 +53,15 @@ export default {
     filteredTweetObj() {
       let filtered = [];
       for (var tweet of this.tweetObj) {
-        tweet.lang === "ENGLISH" ? (tweet.lang = "en") : (tweet.lang = "bm");
+        tweet.lang === "ENGLISH" ? (tweet._lang = "en") : (tweet._lang = "bm");
         if (
-          tweet.lang === this.langFilter &&
+          tweet._lang === this.langFilter &&
           (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
             this.sentimentFilter === "") &&
           (tweet.subjectivity.toLowerCase() === this.subjectFilter ||
             this.subjectFilter === "") &&
-          this.doneId.includes(tweet.id.toString()) &&
-          !this.dismissedId.includes(tweet.id.toString())
+          this.doneId.includes(tweet.id_str) &&
+          !this.dismissedId.includes(tweet.id_str)
         ) {
           filtered.push(tweet);
         }
