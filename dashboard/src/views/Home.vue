@@ -7,9 +7,10 @@
       v-for="tweet in filteredTweetObj.slice(itemPerPage * (page - 1) , itemPerPage + itemPerPage * (page - 1))"
       :key="tweet.id"
       :id="tweet.id"
-      :username="tweet.username"
+      :username="tweet.user"
       :tweetText="tweet.full_text"
-      :sentimentType="tweet.sentiment_type"
+      :sentimentType="tweet.sentiment"
+      :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
@@ -40,7 +41,7 @@
 <script>
 import FilterBar from "@/components/FilterBar";
 import TweetItem from "@/components/TweetItem";
-// import { generateFile } from "@/api";
+//import { generateFile } from "@/api";
 import { getTweets } from "@/api";
 
 export default {
@@ -53,53 +54,7 @@ export default {
     return {
       showAction: true,
       showSentiment: true,
-      tweetObj: [
-        {
-          username: "@lmao",
-          id: "1231234124",
-          full_text: "Lorum Ipsum bla bla bla...",
-          lang: "en",
-          sentiment_type: "Negative",
-          created_at: "30 minutes ago",
-          is_done: false
-        },
-        {
-          username: "@lmao",
-          id: "123123424",
-          full_text: "Lorum Ipsum bla bla bla...",
-          lang: "en",
-          sentiment_type: "Positive",
-          created_at: "30 minutes ago",
-          is_done: false
-        },
-        {
-          username: "@lmao",
-          id: "12312342444",
-          full_text: "Lorum Ipsum bla bla bla...",
-          lang: "en",
-          sentiment_type: "Positive",
-          created_at: "30 minutes ago",
-          is_done: false
-        },
-        {
-          username: "@lmao",
-          id: "1231231242444",
-          full_text: "Lorum Ipsum bla bla bla...",
-          lang: "bm",
-          sentiment_type: "Positive",
-          created_at: "30 minutes ago",
-          is_done: false
-        },
-        {
-          username: "@lmao",
-          id: "1231234542444",
-          full_text: "Lorum Ipsum bla bla bla...",
-          lang: "bm",
-          sentiment_type: "Negative",
-          created_at: "30 minutes ago",
-          is_done: false
-        }
-      ],
+      tweetObj: [],
       dialog: false,
       dialogLabel: "",
       dialogTweetText: "",
@@ -109,18 +64,21 @@ export default {
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest"
+      sentimentFilter: "latest",
+      subjectFilter: "subjective"
     };
   },
   computed: {
     filteredTweetObj() {
       let filtered = [];
       for (var tweet of this.tweetObj) {
+        tweet.lang === "ENGLISH" ? tweet.lang = "en" : tweet.lang = "bm"
         if (
           tweet.lang === this.langFilter &&
-          !tweet.is_done &&
-          (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "latest")
+          //!tweet.is_done &&
+          (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
+            this.sentimentFilter === "latest") &&
+          tweet.subject_type.toLowerCase() === this.subjectFilter
         ) {
           filtered.push(tweet);
         }
@@ -128,7 +86,7 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage);
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
     }
   },
   methods: {
@@ -177,22 +135,30 @@ export default {
         case "latest":
           this.sentimentFilter = "latest";
           break;
+        case "subjective":
+          this.subjectFilter = "subjective";
+          break;
+        case "objective":
+          this.subjectFilter = "objective";
+          break;
         default:
       }
     },
     init() {
       getTweets()
         .then(result => {
-          //eslint-disable-next-line
-          console.log(result);
+          this.tweetObj = result.data
           this.$parent.$parent.$parent.openAlert("success", "Updated successfully.")
           this.$parent.$parent.$parent.updateComplete()
         })
         .catch(e => {
           //eslint-disable-next-line
           console.log(e);
-          this.$parent.$parent.$parent.openAlert("error", "Request failed, please try again.")
-          this.$parent.$parent.$parent.updateComplete()
+          this.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+          this.$parent.$parent.$parent.updateComplete();
         });
     }
   },
