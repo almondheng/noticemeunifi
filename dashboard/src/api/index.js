@@ -25,3 +25,11 @@ export const getDismiss = async () => {
 export const postDismiss = async (id) => {
     return axios.post(url + "/dismiss", id)
 }
+
+export const postTweet = async (id) => {
+    return axios.post(url + "/reply", id)
+}
+
+export const postMessage = async (id) => {
+    return axios.post(url + "/message", id)
+}
