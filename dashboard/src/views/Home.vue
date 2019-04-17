@@ -15,6 +15,7 @@
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
       @message-dialog="invokeMessageDialog"
+      @recompute-data="recomputeFilteredObj"
     />
 
     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -43,6 +44,8 @@ import FilterBar from "@/components/FilterBar";
 import TweetItem from "@/components/TweetItem";
 //import { generateFile } from "@/api";
 import { getTweets } from "@/api";
+import { getIsDone } from "@/api";
+import { getDismiss } from "@/api";
 
 export default {
   name: "Home",
@@ -55,6 +58,8 @@ export default {
       showAction: true,
       showSentiment: true,
       tweetObj: [],
+      dismissedId: [],
+      doneId: [],
       dialog: false,
       dialogLabel: "",
       dialogTweetText: "",
@@ -77,8 +82,10 @@ export default {
           tweet.lang === this.langFilter &&
           //!tweet.is_done &&
           (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "")
+            this.sentimentFilter === "") &&
           // && (tweet.subject_type.toLowerCase() === this.subjectFilter || this.subjectFilter === "")
+          !this.doneId.includes(tweet.id.toString()) &&
+          !this.dismissedId.includes(tweet.id.toString())
         ) {
           filtered.push(tweet);
         }
@@ -153,7 +160,11 @@ export default {
         default:
       }
     },
+    recomputeFilteredObj() {
+      this.init()
+    },
     init() {
+      this.getBlacklist();
       getTweets()
         .then(result => {
           this.tweetObj = result.data;
@@ -171,6 +182,24 @@ export default {
             "Request failed, please try again."
           );
           this.$parent.$parent.$parent.updateComplete();
+        });
+    },
+    getBlacklist() {
+      getIsDone()
+        .then(result => {
+          this.doneId = result.data;
+        })
+        .catch(e => {
+          //eslint-disable-next-line
+          console.log(e);
+        });
+      getDismiss()
+        .then(result => {
+          this.dismissedId = result.data;
+        })
+        .catch(e => {
+          //eslint-disable-next-line
+          console.log(e);
         });
     }
   },

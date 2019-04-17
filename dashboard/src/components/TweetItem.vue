@@ -54,6 +54,9 @@
 </template>
 
 <script>
+import { postIsDone } from "@/api"
+import { postDismiss } from "@/api"
+
 export default {
   name: "TweetItem",
   props: {
@@ -72,8 +75,36 @@ export default {
     messageTweet(id) {
       this.$emit("message-dialog", id);
     },
-    dismissTweet() {},
-    markAsDoneTweet() {}
+    dismissTweet() {
+      let param = {"id": this.id.toString()}
+      postDismiss(param).then(() => {
+        this.$parent.$parent.$parent.$parent.openAlert(
+            "success",
+            "Tweet dismissed."
+          );
+          this.$emit("recompute-data")
+      }).catch(() => {
+          this.$parent.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+        });
+    },
+    markAsDoneTweet() {
+      let param = {"id": this.id.toString()}
+      postIsDone(param).then(() => {
+        this.$parent.$parent.$parent.$parent.openAlert(
+            "success",
+            "Tweet is marked as done."
+          );
+          this.$emit("recompute-data")
+      }).catch(() => {
+          this.$parent.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+        });
+    }
   },
   computed: {
     sentimentClass() {

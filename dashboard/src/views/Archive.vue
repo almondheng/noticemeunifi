@@ -13,6 +13,7 @@
       :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
+      @recompute-data="recomputeFilteredObj"
     />
 
     <div style="margin:40px 0px;"></div>
@@ -25,6 +26,8 @@
 <script>
 import FilterBar from "@/components/FilterBar";
 import TweetItem from "@/components/TweetItem";
+import { getIsDone } from "@/api";
+import { getDismiss } from "@/api";
 
 export default {
   name: "Archive",
@@ -65,7 +68,9 @@ export default {
           (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
             this.sentimentFilter === "") &&
           (tweet.subject_type.toLowerCase() === this.subjectFilter ||
-            this.subjectFilter === "")
+            this.subjectFilter === "") &&
+          this.doneId.includes(tweet.id.toString()) &&
+          !this.dismissedId.includes(tweet.id.toString())
         ) {
           filtered.push(tweet);
         }
@@ -112,8 +117,30 @@ export default {
         default:
       }
     },
+    recomputeFilteredObj() {
+      this.init()
+    },
     init() {
+      this.getBlacklist();
       this.$parent.$parent.$parent.updateComplete();
+    },
+    getBlacklist() {
+      getIsDone()
+        .then(result => {
+          this.doneId = result.data;
+        })
+        .catch(e => {
+          //eslint-disable-next-line
+          console.log(e);
+        });
+      getDismiss()
+        .then(result => {
+          this.dismissedId = result.data;
+        })
+        .catch(e => {
+          //eslint-disable-next-line
+          console.log(e);
+        });
     }
   },
   mounted() {
