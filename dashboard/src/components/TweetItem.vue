@@ -96,7 +96,7 @@ export default {
       this.$emit("message-dialog", id);
     },
     dismissTweet() {
-      let param = {"id": this.id.toString()}
+      let param = {"id": this.id}
       postDismiss(param).then(() => {
         this.$parent.$parent.$parent.$parent.openAlert(
             "success",
@@ -111,7 +111,7 @@ export default {
         });
     },
     markAsDoneTweet() {
-      let param = {"id": this.id.toString()}
+      let param = {"id": this.id}
       postIsDone(param).then(() => {
         this.$parent.$parent.$parent.$parent.openAlert(
             "success",
