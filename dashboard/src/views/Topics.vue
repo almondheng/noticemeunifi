@@ -2,7 +2,8 @@
   <v-container fluid>
     <FilterBar :showSentiment="showSentiment" @change-filter="invokeChangeFilter"/>
     <br>
-    <iframe id="topicChart" src="http://bde99f02.ngrok.io/chart"></iframe>
+    <iframe v-if="this.langFilter === 'en'" id="enChart" src="http://bde99f02.ngrok.io/chart"></iframe>
+    <iframe v-if="this.langFilter === 'bm'" id="bmChart" src="http://bde99f02.ngrok.io/chart"></iframe>
   </v-container>
 </template>
 
@@ -33,8 +34,11 @@ export default {
       }
     },
     init() {
-      document.getElementById("topicChart").src = document.getElementById(
-        "topicChart"
+      document.getElementById("enChart").src = document.getElementById(
+        "enChart"
+      ).src;
+      document.getElementById("bmChart").src = document.getElementById(
+        "bmChart"
       ).src;
       this.$parent.$parent.$parent.updateComplete();
     }
