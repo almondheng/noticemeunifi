@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       avatarSize: 40,
-      toolbarTitle: "Socionion",
+      toolbarTitle: "Notice Me",
       lastUpdate: "10 mins",
       drawer: false,
       loading: false,
