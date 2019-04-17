@@ -23,7 +23,7 @@
                 <span>Last update:</span>
               </v-flex>
               <v-flex>
-                <span><time-ago :datetime="updateTimestamp" refresh style="color:black;"></time-ago> ago</span>
+                <span><time-ago :datetime="updateTimestamp" refresh long style="color:black;"></time-ago></span>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -46,7 +46,7 @@
         </v-list-tile>
         <v-subheader>Action</v-subheader>
         <v-list-tile>
-          <v-list-tile-sub-title>Last update: <time-ago :datetime="updateTimestamp" refresh style="color:black;"></time-ago> ago</v-list-tile-sub-title>
+          <v-list-tile-sub-title>Last update: <time-ago :datetime="updateTimestamp" refresh long style="color:black;"></time-ago></v-list-tile-sub-title>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>

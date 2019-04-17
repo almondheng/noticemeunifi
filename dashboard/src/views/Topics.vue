@@ -2,7 +2,7 @@
   <v-container fluid>
     <FilterBar :showSentiment="showSentiment" @change-filter="invokeChangeFilter"/>
     <br>
-    <iframe src="http://bde99f02.ngrok.io/chart"></iframe>
+    <iframe id="topicChart" src="http://bde99f02.ngrok.io/chart"></iframe>
   </v-container>
 </template>
 
@@ -31,7 +31,14 @@ export default {
           break;
         default:
       }
+    },
+    init() {
+      document.getElementById('topicChart').src = document.getElementById('topicChart').src
+      this.$parent.$parent.$parent.updateComplete()
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
