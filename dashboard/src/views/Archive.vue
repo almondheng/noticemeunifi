@@ -63,8 +63,9 @@ export default {
           tweet.lang === this.langFilter &&
           tweet.is_done &&
           (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "latest") &&
-          tweet.subject_type.toLowerCase() === this.subjectFilter
+            this.sentimentFilter === "") &&
+          (tweet.subject_type.toLowerCase() === this.subjectFilter ||
+            this.subjectFilter === "")
         ) {
           filtered.push(tweet);
         }
@@ -72,7 +73,9 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1
+        ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage)
+        : 1;
     }
   },
   methods: {
@@ -90,14 +93,21 @@ export default {
         case "positive":
           this.sentimentFilter = "positive";
           break;
+        case "neutral":
+          this.sentimentFilter = "neatral";
+          break;
         case "latest":
-          this.sentimentFilter = "latest";
+          this.sentimentFilter = "";
+          this.subjectFilter = "";
           break;
         case "subjective":
           this.subjectFilter = "subjective";
           break;
         case "objective":
           this.subjectFilter = "objective";
+          break;
+        case "mixed":
+          this.subjectFilter = "mixed";
           break;
         default:
       }

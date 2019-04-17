@@ -5,7 +5,7 @@
         <v-icon color="primary" large left>link</v-icon>
         <span class="title font-weight-light">{{ username }}</span>
         <v-spacer/>
-        <v-chip selected :class="sentimentClass">{{ sentimentType }}</v-chip>
+        <v-chip selected :class="sentimentClass">{{ sentimentType.toUpperCase() }}</v-chip>
         <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
       </v-card-title>
 
@@ -57,7 +57,7 @@
 export default {
   name: "TweetItem",
   props: {
-    id: String,
+    id: Number,
     username: String,
     tweetText: String,
     sentimentType: String,
@@ -87,7 +87,8 @@ export default {
       }
     },
     subjectClass() {
-      switch (this.subjectType.toLowerCase()) {
+      // switch (this.subjectType.toLowerCase()) {
+      switch (this.subjectType) {
         case "subjective":
           return { subjectiveStyle: true };
         case "objective":

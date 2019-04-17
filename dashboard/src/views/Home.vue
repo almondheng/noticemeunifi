@@ -64,21 +64,21 @@ export default {
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest",
-      subjectFilter: "subjective"
+      sentimentFilter: "",
+      subjectFilter: ""
     };
   },
   computed: {
     filteredTweetObj() {
       let filtered = [];
       for (var tweet of this.tweetObj) {
-        tweet.lang === "ENGLISH" ? tweet.lang = "en" : tweet.lang = "bm"
+        tweet.lang === "ENGLISH" ? (tweet.lang = "en") : (tweet.lang = "bm");
         if (
           tweet.lang === this.langFilter &&
           //!tweet.is_done &&
           (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "latest") &&
-          tweet.subject_type.toLowerCase() === this.subjectFilter
+            this.sentimentFilter === "")
+          // && (tweet.subject_type.toLowerCase() === this.subjectFilter || this.subjectFilter === "")
         ) {
           filtered.push(tweet);
         }
@@ -86,7 +86,9 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1
+        ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage)
+        : 1;
     }
   },
   methods: {
@@ -132,8 +134,12 @@ export default {
         case "positive":
           this.sentimentFilter = "positive";
           break;
+        case "neutral":
+          this.sentimentFilter = "neatral";
+          break;
         case "latest":
-          this.sentimentFilter = "latest";
+          this.sentimentFilter = "";
+          this.subjectFilter = "";
           break;
         case "subjective":
           this.subjectFilter = "subjective";
@@ -141,15 +147,21 @@ export default {
         case "objective":
           this.subjectFilter = "objective";
           break;
+        case "mixed":
+          this.subjectFilter = "mixed";
+          break;
         default:
       }
     },
     init() {
       getTweets()
         .then(result => {
-          this.tweetObj = result.data
-          this.$parent.$parent.$parent.openAlert("success", "Updated successfully.")
-          this.$parent.$parent.$parent.updateComplete()
+          this.tweetObj = result.data;
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Updated successfully."
+          );
+          this.$parent.$parent.$parent.updateComplete();
         })
         .catch(e => {
           //eslint-disable-next-line
