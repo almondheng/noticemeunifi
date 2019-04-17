@@ -7,9 +7,9 @@
       v-for="tweet in filteredTweetObj.slice(itemPerPage * (page - 1) , itemPerPage + itemPerPage * (page - 1))"
       :key="tweet.id"
       :id="tweet.id"
-      :username="tweet.username"
+      :username="tweet.user"
       :tweetText="tweet.full_text"
-      :sentimentType="tweet.sentiment_type"
+      :sentimentType="tweet.sentiment"
       :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
@@ -26,6 +26,7 @@
 <script>
 import FilterBar from "@/components/FilterBar";
 import TweetItem from "@/components/TweetItem";
+import { getTweets } from "@/api";
 import { getIsDone } from "@/api";
 import { getDismiss } from "@/api";
 
@@ -39,36 +40,26 @@ export default {
     return {
       showAction: false,
       showSentiment: true,
-      tweetObj: [
-        {
-          username: "@lmao",
-          id: "1231234124",
-          lang: "en",
-          full_text: "Lorum Ipsum bla bla bla...",
-          sentiment_type: "Negative",
-          subject_type: "Objective",
-          created_at: "30 minutes ago",
-          is_done: true
-        }
-      ],
+      tweetObj: [],
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest",
-      subjectFilter: "subjective"
+      sentimentFilter: "",
+      subjectFilter: ""
     };
   },
   computed: {
     filteredTweetObj() {
       let filtered = [];
       for (var tweet of this.tweetObj) {
+        tweet.lang === "ENGLISH" ? (tweet.lang = "en") : (tweet.lang = "bm");
         if (
           tweet.lang === this.langFilter &&
-          tweet.is_done &&
-          (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
+          // tweet.is_done &&
+          (tweet.sentiment.toLowerCase() === this.sentimentFilter ||
             this.sentimentFilter === "") &&
-          (tweet.subject_type.toLowerCase() === this.subjectFilter ||
-            this.subjectFilter === "") &&
+          // (tweet.subject_type.toLowerCase() === this.subjectFilter ||
+            // this.subjectFilter === "") &&
           this.doneId.includes(tweet.id.toString()) &&
           !this.dismissedId.includes(tweet.id.toString())
         ) {
@@ -99,7 +90,7 @@ export default {
           this.sentimentFilter = "positive";
           break;
         case "neutral":
-          this.sentimentFilter = "neatral";
+          this.sentimentFilter = "neutral";
           break;
         case "latest":
           this.sentimentFilter = "";
@@ -122,7 +113,24 @@ export default {
     },
     init() {
       this.getBlacklist();
-      this.$parent.$parent.$parent.updateComplete();
+      getTweets()
+        .then(result => {
+          this.tweetObj = result.data;
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Updated successfully."
+          );
+          this.$parent.$parent.$parent.updateComplete();
+        })
+        .catch(e => {
+          //eslint-disable-next-line
+          console.log(e);
+          this.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+          this.$parent.$parent.$parent.updateComplete();
+        });
     },
     getBlacklist() {
       getIsDone()
