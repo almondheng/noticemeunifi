@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>
         <v-icon color="primary" large left>link</v-icon>
-        <span class="title font-weight-light">{{ username }}</span>
+        <span class="title font-weight-light">{{ parseToString(username) }}</span>
         <v-spacer/>
         <v-chip selected :class="sentimentClass">{{ sentimentType.toUpperCase() }}</v-chip>
         <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
@@ -69,6 +69,15 @@ export default {
     showAction: Boolean
   },
   methods: {
+    parseToString(username) {
+      var t1 = username.replace(new RegExp("'", 'g'), '"')
+      var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
+      var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
+      var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
+      var json = JSON.stringify(eval("(" + t4 + ")"));
+      var obj = JSON.parse(json)
+      return obj.name
+    },
     replyTweet(id) {
       this.$emit("reply-dialog", id);
     },
