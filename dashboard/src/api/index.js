@@ -33,3 +33,11 @@ export const postTweet = async (payload) => {
 export const postMessage = async (payload) => {
     return axios.post(url + "/message", payload)
 }
+
+export const getEnTopic = async () => {
+    return axios.get(url + "/eng_sentiment")
+}
+
+export const getBmTopic = async () => {
+    return axios.get(url + "/malay_sentiment")
+}
