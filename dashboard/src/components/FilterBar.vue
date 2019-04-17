@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-left fluid>
     <v-layout v-resize="onResize" :row="row" :column="column" wrap>
-      <v-flex xs4>
+      <v-flex xs6>
         <p>Language</p>
         <v-btn-toggle v-model="langFilter" mandatory>
           <v-btn color="primary" flat value="en">English</v-btn>
@@ -9,20 +9,30 @@
         </v-btn-toggle>
       </v-flex>
       <br>
-      <v-flex xs4 v-if="showSentiment">
-        <p>Sentiment Type</p>
-        <v-btn-toggle v-model="sentimentFilter" mandatory>
-          <v-btn color="primary_alt" flat value="positive">Positive</v-btn>
-          <v-btn color="secondary_alt" flat value="negative">Negative</v-btn>
+      <v-flex xs6 v-if="showSentiment">
+        <p>Latest</p>
+        <v-btn-toggle v-model="latestFilter">
           <v-btn color="special" flat value="latest">Latest</v-btn>
         </v-btn-toggle>
       </v-flex>
+    </v-layout>
+    <br>
+    <v-layout  v-if="showSentiment" v-resize="onResize" :row="row" :column="column" wrap>
+      <v-flex xs6>
+        <p>Sentiment Type</p>
+        <v-btn-toggle v-model="sentimentFilter">
+          <v-btn color="primary_alt" flat value="positive">Positive</v-btn>
+          <v-btn color="secondary_alt" flat value="negative">Negative</v-btn>
+          <v-btn color="secondary" flat value="neutral">Neutral</v-btn>
+        </v-btn-toggle>
+      </v-flex>
       <br>
-      <v-flex xs4 v-if="showSentiment">
+      <v-flex xs6>
         <p>Subjectivity</p>
-        <v-btn-toggle v-model="subjectFilter" mandatory>
+        <v-btn-toggle v-model="subjectFilter">
           <v-btn color="primary" flat value="subjective">Subjective</v-btn>
           <v-btn color="secondary" flat value="objective">Objective</v-btn>
+          <v-btn color="secondary_alt" flat value="mixed">Mixed</v-btn>
         </v-btn-toggle>
       </v-flex>
     </v-layout>
@@ -38,8 +48,9 @@ export default {
   data() {
     return {
       langFilter: "en",
-      sentimentFilter: "latest",
-      subjectFilter: "subjective",
+      sentimentFilter: "",
+      subjectFilter: "",
+      latestFilter: "latest",
       row: true,
       column: false
     };
@@ -70,33 +81,20 @@ export default {
       this.$emit("change-filter", this.langFilter);
     },
     sentimentFilter() {
+      this.latestFilter = undefined
       this.$emit("change-filter", this.sentimentFilter);
     },
     subjectFilter() {
+      this.latestFilter = undefined
       this.$emit("change-filter", this.subjectFilter);
+    },
+    latestFilter() {
+      if (this.latestFilter === "latest") {
+        this.sentimentFilter = undefined
+        this.subjectFilter = undefined
+      }
+      this.$emit("change-filter", this.latestFilter)
     }
   }
 };
 </script>
-
-<style scoped>
-.englishBtn {
-  color: rgba(139, 30, 63, 1) !important;
-}
-
-.malayBtn {
-  color: rgba(238, 108, 77, 1) !important;
-}
-
-.positiveBtn {
-  color: rgba(60, 21, 59, 1) !important;
-}
-
-.negativeBtn {
-  color: rgba(204, 49, 70, 1) !important;
-}
-
-.latestBtn {
-  color: rgba(240, 201, 135, 1) !important;
-}
-</style>
