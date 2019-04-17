@@ -47,8 +47,6 @@ import TweetItem from "@/components/TweetItem";
 import { getTweets } from "@/api";
 import { getIsDone } from "@/api";
 import { getDismiss } from "@/api";
-import { postTweet } from "@/api";
-import { postMessage } from "@/api";
 
 export default {
   name: "Home",
@@ -120,18 +118,13 @@ export default {
     },
     sendTweet() {
       if (this.dialogLabel === "Reply") {
-        let payload = {"id": this.replyToId, "text":this.dialogTweetText}
-        postTweet(payload).then(()=> {
-          // eslint-disable-next-line
-          console.log(payload);
-        })
+        // eslint-disable-next-line
+        console.log("Reply to " + this.replyToId + ": " + this.dialogTweetText);
       } else if (this.dialogLabel === "Message") {
         // eslint-disable-next-line
         console.log(
           "Message to " + this.messageToId + ": " + this.dialogTweetText
-        ); 
-        let payload = {"id": this.messageToId, "text":this.dialogTweetText}
-        postMessage(payload)
+        );
       }
       this.closeDialog();
     },
