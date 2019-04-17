@@ -33,8 +33,10 @@ export default {
       }
     },
     init() {
-      document.getElementById('topicChart').src = document.getElementById('topicChart').src
-      this.$parent.$parent.$parent.updateComplete()
+      document.getElementById("topicChart").src = document.getElementById(
+        "topicChart"
+      ).src;
+      this.$parent.$parent.$parent.updateComplete();
     }
   },
   mounted() {

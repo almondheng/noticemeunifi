@@ -10,6 +10,7 @@
       :username="tweet.username"
       :tweetText="tweet.full_text"
       :sentimentType="tweet.sentiment_type"
+      :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
       @reply-dialog="invokeReplyDialog"
@@ -60,6 +61,7 @@ export default {
           full_text: "Lorum Ipsum bla bla bla...",
           lang: "en",
           sentiment_type: "Negative",
+          subject_type: "Subjective",
           created_at: "30 minutes ago",
           is_done: false
         },
@@ -69,6 +71,7 @@ export default {
           full_text: "Lorum Ipsum bla bla bla...",
           lang: "en",
           sentiment_type: "Positive",
+          subject_type: "Subjective",
           created_at: "30 minutes ago",
           is_done: false
         },
@@ -78,6 +81,7 @@ export default {
           full_text: "Lorum Ipsum bla bla bla...",
           lang: "en",
           sentiment_type: "Positive",
+          subject_type: "Subjective",
           created_at: "30 minutes ago",
           is_done: false
         },
@@ -87,6 +91,7 @@ export default {
           full_text: "Lorum Ipsum bla bla bla...",
           lang: "bm",
           sentiment_type: "Positive",
+          subject_type: "Objective",
           created_at: "30 minutes ago",
           is_done: false
         },
@@ -96,6 +101,7 @@ export default {
           full_text: "Lorum Ipsum bla bla bla...",
           lang: "bm",
           sentiment_type: "Negative",
+          subject_type: "Objective",
           created_at: "30 minutes ago",
           is_done: false
         }
@@ -109,7 +115,8 @@ export default {
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest"
+      sentimentFilter: "latest",
+      subjectFilter: "subjective"
     };
   },
   computed: {
@@ -120,7 +127,8 @@ export default {
           tweet.lang === this.langFilter &&
           !tweet.is_done &&
           (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
-            this.sentimentFilter === "latest")
+            this.sentimentFilter === "latest") &&
+          tweet.subject_type.toLowerCase() === this.subjectFilter
         ) {
           filtered.push(tweet);
         }
@@ -128,7 +136,7 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage);
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
     }
   },
   methods: {
@@ -177,6 +185,12 @@ export default {
         case "latest":
           this.sentimentFilter = "latest";
           break;
+        case "subjective":
+          this.subjectFilter = "subjective";
+          break;
+        case "objective":
+          this.subjectFilter = "objective";
+          break;
         default:
       }
     },
@@ -185,14 +199,20 @@ export default {
         .then(result => {
           //eslint-disable-next-line
           console.log(result);
-          this.$parent.$parent.$parent.openAlert("success", "Updated successfully.")
-          this.$parent.$parent.$parent.updateComplete()
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Updated successfully."
+          );
+          this.$parent.$parent.$parent.updateComplete();
         })
         .catch(e => {
           //eslint-disable-next-line
           console.log(e);
-          this.$parent.$parent.$parent.openAlert("error", "Request failed, please try again.")
-          this.$parent.$parent.$parent.updateComplete()
+          this.$parent.$parent.$parent.openAlert(
+            "error",
+            "Request failed, please try again."
+          );
+          this.$parent.$parent.$parent.updateComplete();
         });
     }
   },

@@ -6,6 +6,7 @@
         <span class="title font-weight-light">{{ username }}</span>
         <v-spacer/>
         <v-chip selected :class="sentimentClass">{{ sentimentType }}</v-chip>
+        <v-chip selected :class="subjectClass">{{ subjectType }}</v-chip>
       </v-card-title>
 
       <v-card-text>{{ tweetText }}</v-card-text>
@@ -60,6 +61,7 @@ export default {
     username: String,
     tweetText: String,
     sentimentType: String,
+    subjectType: String,
     createdAt: String,
     showAction: Boolean
   },
@@ -75,11 +77,21 @@ export default {
   },
   computed: {
     sentimentClass() {
-      switch (this.sentimentType) {
-        case "Negative":
+      switch (this.sentimentType.toLowerCase()) {
+        case "negative":
           return { negativeStyle: true };
-        case "Positive":
+        case "positive":
           return { positiveStyle: true };
+        default:
+          return {};
+      }
+    },
+    subjectClass() {
+      switch (this.subjectType.toLowerCase()) {
+        case "subjective":
+          return { subjectiveStyle: true };
+        case "objective":
+          return { objectiveStyle: true };
         default:
           return {};
       }
@@ -91,11 +103,21 @@ export default {
 <style scoped>
 .negativeStyle {
   color: rgba(204, 49, 70, 1);
-  background-color: white
+  background-color: white;
 }
 
 .positiveStyle {
   color: rgba(60, 21, 59, 1);
+  background-color: white;
+}
+
+.subjectiveStyle {
+  color: rgba(139, 30, 63, 1);
+  background-color: white;
+}
+
+.objectiveStyle {
+  color: rgba(238, 108, 77, 1);
   background-color: white;
 }
 </style>

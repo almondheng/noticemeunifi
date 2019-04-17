@@ -10,6 +10,7 @@
       :username="tweet.username"
       :tweetText="tweet.full_text"
       :sentimentType="tweet.sentiment_type"
+      :subjectType="tweet.subject_type"
       :createdAt="tweet.created_at"
       :showAction="showAction"
     />
@@ -42,6 +43,7 @@ export default {
           lang: "en",
           full_text: "Lorum Ipsum bla bla bla...",
           sentiment_type: "Negative",
+          subject_type: "Objective",
           created_at: "30 minutes ago",
           is_done: true
         }
@@ -49,7 +51,8 @@ export default {
       page: 1,
       itemPerPage: 10,
       langFilter: "en",
-      sentimentFilter: "latest"
+      sentimentFilter: "latest",
+      subjectFilter: "subjective"
     };
   },
   computed: {
@@ -57,10 +60,11 @@ export default {
       let filtered = [];
       for (var tweet of this.tweetObj) {
         if (
-          tweet.lang === this.langFilter && tweet.is_done &&
-          (tweet.sentiment_type.toLowerCase() ===
-            this.sentimentFilter ||
-            this.sentimentFilter === "latest")
+          tweet.lang === this.langFilter &&
+          tweet.is_done &&
+          (tweet.sentiment_type.toLowerCase() === this.sentimentFilter ||
+            this.sentimentFilter === "latest") &&
+          tweet.subject_type.toLowerCase() === this.subjectFilter
         ) {
           filtered.push(tweet);
         }
@@ -68,11 +72,11 @@ export default {
       return filtered;
     },
     calculateLength() {
-      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage);
+      return Math.ceil(this.filteredTweetObj.length / this.itemPerPage) >= 1 ? Math.ceil(this.filteredTweetObj.length / this.itemPerPage) : 1;
     }
   },
   methods: {
-      invokeChangeFilter(filter) {
+    invokeChangeFilter(filter) {
       switch (filter) {
         case "en":
           this.langFilter = "en";
@@ -89,9 +93,21 @@ export default {
         case "latest":
           this.sentimentFilter = "latest";
           break;
+        case "subjective":
+          this.subjectFilter = "subjective";
+          break;
+        case "objective":
+          this.subjectFilter = "objective";
+          break;
         default:
       }
+    },
+    init() {
+      this.$parent.$parent.$parent.updateComplete();
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
