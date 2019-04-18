@@ -81,11 +81,15 @@ export default {
       this.$emit("change-filter", this.langFilter);
     },
     sentimentFilter() {
-      this.latestFilter = undefined
+      if (this.sentimentFilter !== undefined) {
+        this.latestFilter = undefined
+      }
       this.$emit("change-filter", this.sentimentFilter);
     },
     subjectFilter() {
-      this.latestFilter = undefined
+      if (this.subjectFilter !== undefined) {
+        this.latestFilter = undefined
+      }
       this.$emit("change-filter", this.subjectFilter);
     },
     latestFilter() {
