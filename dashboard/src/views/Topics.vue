@@ -15,7 +15,7 @@
       src="https://bde99f02.ngrok.io/malay"
     ></iframe>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'en'"
       width="100%"
       type="heatmap"
@@ -23,7 +23,7 @@
       :series="series0"
     ></apexchart>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'en'"
       width="100%"
       type="heatmap"
@@ -31,7 +31,7 @@
       :series="series1"
     ></apexchart>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'en'"
       width="100%"
       type="heatmap"
@@ -39,7 +39,7 @@
       :series="series2"
     ></apexchart>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'bm'"
       width="100%"
       type="heatmap"
@@ -47,7 +47,7 @@
       :series="series_bm0"
     ></apexchart>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'bm'"
       width="100%"
       type="heatmap"
@@ -55,7 +55,7 @@
       :series="series_bm1"
     ></apexchart>
     <apexchart
-      class="hidden-sm-and-above"
+      class="hidden-sm-and-up"
       v-if="this.langFilter === 'bm'"
       width="100%"
       type="heatmap"
