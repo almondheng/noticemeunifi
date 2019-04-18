@@ -132,7 +132,7 @@ export default {
           // eslint-disable-next-line
           console.log(e);
           this.$parent.$parent.$parent.openAlert(
-            "success",
+            "error",
             "Sent failed. Please try again."
           );
         })
@@ -151,7 +151,7 @@ export default {
           // eslint-disable-next-line
           console.log(e);
           this.$parent.$parent.$parent.openAlert(
-            "success",
+            "error",
             "Sent failed. Please try again."
           );
         })
