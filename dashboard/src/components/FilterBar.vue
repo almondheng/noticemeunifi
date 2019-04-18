@@ -21,18 +21,18 @@
       <v-flex xs6>
         <p>Sentiment Type</p>
         <v-btn-toggle v-model="sentimentFilter">
-          <v-btn color="primary_alt" flat value="positive">Positive</v-btn>
-          <v-btn color="secondary_alt" flat value="negative">Negative</v-btn>
-          <v-btn color="secondary" flat value="neutral">Neutral</v-btn>
+          <v-btn color="positive" flat value="positive">Positive</v-btn>
+          <v-btn color="negative" flat value="negative">Negative</v-btn>
+          <v-btn color="neutral" flat value="neutral">Neutral</v-btn>
         </v-btn-toggle>
       </v-flex>
       <br>
       <v-flex xs6>
         <p>Subjectivity</p>
         <v-btn-toggle v-model="subjectFilter">
-          <v-btn color="primary" flat value="subjective">Subjective</v-btn>
-          <v-btn color="secondary" flat value="objective">Objective</v-btn>
-          <v-btn color="secondary_alt" flat value="mixed">Mixed</v-btn>
+          <v-btn color="subjective" flat value="subjective">Subjective</v-btn>
+          <v-btn color="objective" flat value="objective">Objective</v-btn>
+          <v-btn color="neutral" flat value="mixed">Mixed</v-btn>
         </v-btn-toggle>
       </v-flex>
     </v-layout>

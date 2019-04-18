@@ -158,17 +158,17 @@ export default {
 }
 
 .positiveStyle {
-  color: rgba(60, 21, 59, 1);
+  color: rgba(0, 128, 0, 1);
   background-color: white;
 }
 
 .subjectiveStyle {
-  color: rgba(139, 30, 63, 1);
+  color: rgba(102, 0, 255, 1);
   background-color: white;
 }
 
 .objectiveStyle {
-  color: rgba(238, 108, 77, 1);
+  color: rgba(0, 102, 255, 1);
   background-color: white;
 }
 

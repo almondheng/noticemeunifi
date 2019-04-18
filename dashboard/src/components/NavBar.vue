@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar color="grey" app>
+    <v-toolbar color="#ee6c4d" app>
       <v-toolbar-side-icon class="hidden-sm-and-up" @click="toggleDrawer"></v-toolbar-side-icon>
       <v-avatar class="logo" tile :size="avatarSize">
         <img src="@/assets/logo.png" alt="avatar">

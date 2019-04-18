@@ -11,6 +11,11 @@ Vue.use(Vuetify, {
     secondary_alt: '#cc3146',
     special: '#f0c987',
     accent: '#8c9eff',
-    error: '#b71c1c'
+    error: '#b71c1c',
+    positive: '#008000',
+    negative: '#ff6347',
+    neutral: '#696969',
+    objective: '#0066ff',
+    subjective: '#6600ff'
   }
 })
