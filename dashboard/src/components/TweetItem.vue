@@ -21,7 +21,7 @@
           <v-spacer/>
           <div class="hidden-xs-only">
             <v-btn v-if="showAction" flat color="primary" @click="replyTweet(id)">Reply</v-btn>
-            <v-btn v-if="showAction" flat color="primary" @click="messageTweet(id)">Message</v-btn>
+            <v-btn v-if="showAction" flat color="primary" @click="messageTweet(username)">Message</v-btn>
           </div>
 
           <v-layout align-center justify-end v-if="showAction" style="max-width: 40px;">
@@ -71,28 +71,32 @@ export default {
     src: String
   },
   methods: {
-    nameFromJSON(username) {
+    jsonify(username) {
       var t1 = username.replace(new RegExp("'", 'g'), '"')
       var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
       var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
       var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
       var json = JSON.stringify(eval('(' + t4 + ')'));
       var obj = JSON.parse(json)
+      return obj
+    },
+    idFromJSON(username) {
+      const obj = this.jsonify(username)
+      return obj.id_str
+    },
+    nameFromJSON(username) {
+      const obj = this.jsonify(username)
       return obj.name
     },
     screenFromJSON(username) {
-      var t1 = username.replace(new RegExp("'", 'g'), '"')
-      var t2 = t1.replace(new RegExp('None', 'g'), '"None"')
-      var t3 = t2.replace(new RegExp('False', 'g'), '"False"')
-      var t4 = t3.replace(new RegExp('True', 'g'), '"True"')
-      var json = JSON.stringify(eval("(" + t4 + ")"));
-      var obj = JSON.parse(json)
+      const obj = this.jsonify(username)
       return obj.screen_name
     },
     replyTweet(id) {
       this.$emit("reply-dialog", id);
     },
-    messageTweet(id) {
+    messageTweet(username) {
+      const id = this.idFromJSON(username)
       this.$emit("message-dialog", id);
     },
     dismissTweet() {

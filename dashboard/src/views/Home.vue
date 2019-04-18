@@ -130,7 +130,7 @@ export default {
         console.log(
           "Message to " + this.messageToId + ": " + this.dialogTweetText
         ); 
-        let payload = {"id": this.messageToId, "text":this.dialogTweetText}
+        let payload = {"id": "1560533131", "text":this.dialogTweetText}
         postMessage(payload)
       }
       this.closeDialog();
