@@ -8,6 +8,7 @@
       <v-toolbar-title class="hidden-sm-and-up">{{ toolbarTitle }}</v-toolbar-title>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
+        style="color:white;"
           v-for="navigation in navigationData"
           :key="navigation.key"
           :to="navigation.path"
@@ -46,7 +47,7 @@
         </v-list-tile>
         <v-subheader>Action</v-subheader>
         <v-list-tile>
-          <v-list-tile-sub-title>Last update: <time-ago :datetime="updateTimestamp" refresh long style="color:black;"></time-ago></v-list-tile-sub-title>
+          <v-list-tile-sub-title style="color:white;">Last update: <time-ago :datetime="updateTimestamp" refresh long style="color:white;"></time-ago></v-list-tile-sub-title>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
