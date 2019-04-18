@@ -124,6 +124,17 @@ export default {
         postTweet(payload).then(()=> {
           // eslint-disable-next-line
           console.log(payload);
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Sent successfully."
+          );
+        }).catch(e => {
+          // eslint-disable-next-line
+          console.log(e);
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Sent failed. Please try again."
+          );
         })
       } else if (this.dialogLabel === "Message") {
         // eslint-disable-next-line
@@ -131,7 +142,19 @@ export default {
           "Message to " + this.messageToId + ": " + this.dialogTweetText
         ); 
         let payload = {"id": "1560533131", "text":this.dialogTweetText}
-        postMessage(payload)
+        postMessage(payload).then(() => {
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Sent successfully."
+          );
+        }).catch(e => {
+          // eslint-disable-next-line
+          console.log(e);
+          this.$parent.$parent.$parent.openAlert(
+            "success",
+            "Sent failed. Please try again."
+          );
+        })
       }
       this.closeDialog();
     },
