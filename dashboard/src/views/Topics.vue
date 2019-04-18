@@ -14,198 +14,90 @@
       id="bmChart"
       src="https://bde99f02.ngrok.io/malay"
     ></iframe>
-    <apexchart class="hidden-sm-and-above" v-if="this.langFilter === 'en'" width="100%" type="heatmap" :options="options" :series="series"></apexchart>
-    <apexchart class="hidden-sm-and-above" v-if="this.langFilter === 'bm'" width="100%" type="heatmap" :options="options" :series="series_bm"></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'en'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series0"
+    ></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'en'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series1"
+    ></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'en'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series2"
+    ></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'bm'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series_bm0"
+    ></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'bm'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series_bm1"
+    ></apexchart>
+    <apexchart
+      class="hidden-sm-and-above"
+      v-if="this.langFilter === 'bm'"
+      width="100%"
+      type="heatmap"
+      :options="options"
+      :series="series_bm2"
+    ></apexchart>
   </v-container>
 </template>
 
 <script>
 import FilterBar from "@/components/FilterBar";
-import { getEnTopic } from "@/api"
-import { getBmTopic } from "@/api"
+import { getEnTopic } from "@/api";
+import { getBmTopic } from "@/api";
 
 const options = {
   plotOptions: {
     heatmap: {
       colorScale: {
-        ranges: [{
+        ranges: [
+          {
             from: 4,
             to: 5,
-            color: '#00A100',
-            name: 'low',
+            color: "#00A100",
+            name: "low"
           },
           {
             from: 3,
             to: 3,
-            color: '#128FD9',
-            name: 'medium',
+            color: "#128FD9",
+            name: "medium"
           },
           {
             from: 1,
             to: 2,
-            color: '#FFB200',
-            name: 'high',
+            color: "#FFB200",
+            name: "high"
           }
         ]
       }
     }
   }
-}
-
-// const series = [
-//   {
-//     name: "Series 1",
-//     data: [{
-//         x: 'Topic 1',
-//         y: '1'
-//       }, {
-//         x: 'Topic 2',
-//         y: '2'
-//       }, {
-//         x: 'Topic 3',
-//         y: '3'
-//       }, {
-//         x: 'Topic 4',
-//         y: '4'
-//       }, {
-//         x: 'Topic 5',
-//         y: '5'
-//       }]
-//   }
-// ]
-
-
-// const dataSource = {
-//   chart: {
-//     caption: "Top 5 Topics",
-//     subcaption: "2002-2017",
-//     theme: "fusion",
-//     valuefontsize: "12",
-//     showlabels: "1",
-//     showvalues: "1",
-//     showplotborder: "1",
-//     placexaxislabelsontop: "1",
-//     mapbycategory: "0",
-//     showlegend: "0",
-//     plottooltext:
-//       "<b>$displayValue</b> was <b>$columnlabel</b> in <b>$rowlabel</b>",
-//     valuefontcolor: "#262A44"
-//   },
-//   rows: {
-//     row: [
-//       {
-//         id: "0",
-//         label: "1"
-//       },
-//       {
-//         id: "1",
-//         label: "2"
-//       },
-//       {
-//         id: "2",
-//         label: "3"
-//       },
-//       {
-//         id: "3",
-//         label: "4"
-//       },
-//       {
-//         id: "4",
-//         label: "5"
-//       },
-//       {
-//         id: "5",
-//         label: "6"
-//       },
-//       {
-//         id: "6",
-//         label: "7"
-//       },
-//       {
-//         id: "7",
-//         label: "8"
-//       },
-//       {
-//         id: "8",
-//         label: "9"
-//       }
-//     ]
-//   },
-//   columns: {
-//     column: [
-//       {
-//         id: "topic 0",
-//         label: "#1"
-//       },
-//       {
-//         id: "topic 1",
-//         label: "#2"
-//       },
-//       {
-//         id: "topic 2",
-//         label: "#3"
-//       },
-//       {
-//         id: "topic 3",
-//         label: "#4"
-//       },
-//       {
-//         id: "topic 4",
-//         label: "#5"
-//       }
-//     ]
-//   },
-//   dataset: [
-//     {
-//       data: [
-//         {
-//           rowid: "2002",
-//           columnid: "1",
-//           value: "0",
-//           displayvalue: "Riley"
-//         },
-//         {
-//           rowid: "2003",
-//           columnid: "1",
-//           value: "24",
-//           displayvalue: "Riley"
-//         }
-//       ]
-//     }
-//   ],
-//   colorrange: {
-//     gradient: "1",
-//     minvalue: "0",
-//     code: "#FCFBFF",
-//     color: [
-//       {
-//         code: "#FBE1EA",
-//         minvalue: "0",
-//         maxvalue: "10"
-//       },
-//       {
-//         code: "#FEB0BA",
-//         minvalue: "10",
-//         maxvalue: "20"
-//       },
-//       {
-//         code: "#f7f8fd",
-//         minvalue: "20",
-//         maxvalue: "30"
-//       },
-//       {
-//         code: "#DCE8F4",
-//         minvalue: "30",
-//         maxvalue: "40"
-//       },
-//       {
-//         code: "#6B96CB",
-//         minvalue: "40",
-//         maxvalue: "50"
-//       }
-//     ]
-//   }
-// };
+};
 
 export default {
   name: "Topics",
@@ -242,13 +134,14 @@ export default {
           //eslint-disable-next-line
           console.log(e);
         });
-        getBmTopic()
+      getBmTopic()
         .then(result => {
           this.malaySentiment = result.data;
           this.$parent.$parent.$parent.openAlert(
             "success",
             "Updated successfully."
           );
+          this.$parent.$parent.$parent.updateComplete();
         })
         .catch(e => {
           //eslint-disable-next-line
@@ -273,48 +166,62 @@ export default {
   },
   computed: {
     series() {
-      var returnSeries = []
-      var i = 1
+      var returnSeries = [];
       for (var index in this.engSentiment) {
-        var data = []
-        for (var item of Object.keys(this.engSentiment[index])){
+        var i = 1;
+        var data = [];
+        for (var item of Object.keys(this.engSentiment[index])) {
           data.push({
-            "x": this.engSentiment[index][item],
-            "y": i
-          })
-          i++
+            x: this.engSentiment[index][item],
+            y: i
+          });
+          i++;
         }
         var obj = {
-          "name": "Topics",
-          "data": data
-        }
-        if(index == '0') {
-          returnSeries.push(obj)
-        }
+          name: "Topics",
+          data: data
+        };
+        returnSeries.push(obj);
       }
-      return returnSeries
+      return returnSeries;
+    },
+    series0() {
+      return [this.series[0]];
+    },
+    series1() {
+      return [this.series[1]];
+    },
+    series2() {
+      return [this.series[2]];
     },
     series_bm() {
-      var returnSeries = []
-      var i = 1
+      var returnSeries = [];
       for (var index in this.malaySentiment) {
-        var data = []
-        for (var item of Object.keys(this.engSentiment[index])){
+        var i = 1;
+        var data = [];
+        for (var item of Object.keys(this.engSentiment[index])) {
           data.push({
-            "x": this.engSentiment[index][item],
-            "y": i
-          })
-          i++
+            x: this.engSentiment[index][item],
+            y: i
+          });
+          i++;
         }
         var obj = {
-          "name": "Topics",
-          "data": data
-        }
-        if(index == '0') {
-          returnSeries.push(obj)
-        }
+          name: "Topics",
+          data: data
+        };
+        returnSeries.push(obj);
       }
-      return returnSeries
+      return returnSeries;
+    },
+    series_bm0() {
+      return [this.series_bm[0]]
+    },
+    series_bm1() {
+      return [this.series_bm[1]]
+    },
+    series_bm2() {
+      return [this.series_bm[2]]
     }
   }
 };
